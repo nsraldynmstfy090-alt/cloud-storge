@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Online C++ Compiler</title>
+
+<style>
+    body {
+        background: #f2f2f7;
+        font-family: "Tahoma", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        direction: rtl;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    #editor {
+        width: 90%;
+        height: 250px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        font-family: monospace;
+        font-size: 15px;
+        background: white;
+        outline: none;
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 12px 25px;
+        font-size: 15px;
+        border: none;
+        background: #0078ff;
+        color: white;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #0059c9;
+    }
+
+    #output {
+        margin-top: 20px;
+        width: 90%;
+        background: #111;
+        color: #0f0;
+        padding: 15px;
+        border-radius: 8px;
+        min-height: 120px;
+        white-space: pre-wrap;
+        font-family: monospace;
+    }
+</style>
+</head>
+
+<body>
+
+<h2>منصّة تشغيل C++ أونلاين</h2>
+
+<textarea id="editor">#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello from your C++ Cloud Compiler!";
+    return 0;
+}</textarea>
+
+<button onclick="runCode()">تشغيل</button>
+
+<pre id="output">النتيجة ستظهر هنا...</pre>
+
+<script>
+function runCode() {
+    const code = document.getElementById("editor").value;
+
+    document.getElementById("output").innerText = "⏳ جاري التشغيل...";
+
+    fetch("/run", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code })
+    })
+    .then(res => res.json())
+    .then(res => {
+        document.getElementById("output").innerText = res.output;
+    })
+    .catch(() => {
+        document.getElementById("output").innerText = "خطأ في الاتصال بالسيرفر!";
+    });
+}
+</script>
+
+</body>
+</html>
