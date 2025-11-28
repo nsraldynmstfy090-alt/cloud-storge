@@ -1,8 +1,7 @@
 {
-  "builds": [
-    { "src": "server.py", "use": "@vercel/python" }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "server.py" }
-  ]
+  "functions": {
+    "api/run_cpp.py": {
+      "runtime": "python3.9"
+    }
+  }
 }
